@@ -18,7 +18,7 @@ module.exports = {
             console.log(error);
         }   
     },
-
+    //Verifica se esta com conexão no ponto acessado
     async checkConnect(req, res){
         try {
             if(ssh.checkConnect()){
@@ -34,19 +34,18 @@ module.exports = {
             console.log(error);
         }
     },
-
+    //Recebe arquivos do ponto acessado
     async receiveFile(req, res){
         try {
             const {file} = req.body;            
-            ssh.getFileSSH(file, req, res);
-            //res.send({status: "Successful"});
+            ssh.getFileSSH(file, req, res);            
         } catch (error) {
             res.send({status: "ERROR"});
             console.log("[RECEIVE FILE]=> ERROR");
             console.log(error);
         }
     },
-
+    //Força comandos no ponto acessado
     async commandSO(req, res){
         try {
             const {command} = req.body;

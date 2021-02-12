@@ -9,6 +9,7 @@ const dirRemote =  "/home/debian/" //Diretório remoto Inicial
 var connected = false; //Estado da conexão
 var ssh = new NodeSSH ();
 
+//Realiza conexão SSH
 function connectSSH(host, user, password){
     ssh = new NodeSSH ();
     ssh.connect({
@@ -25,6 +26,7 @@ function connectSSH(host, user, password){
     })
 }
 
+//Verifica se abriu conexão SSH
 function checkConnect(){
     if(connected){        
         return true;
@@ -34,6 +36,7 @@ function checkConnect(){
     }
 }
 
+//Recebe arquivo através do SSH
 function getFileSSH(file, req, res){
     var fileRemote = ""; //arquivo remoto    
 
@@ -42,18 +45,15 @@ function getFileSSH(file, req, res){
         console.log("[SSH]=> Failed to receive file (NOT CONNECTION)");
         res.send({status: 'ERROR'});
         return;
-    }
-            
-    console.log('[FS]=> Successfully created file '+ file+".txt");
+    }            
+    
     //converter para o diretorio correspondente do host
-    if(file == "id") fileRemote = 'numeroSerie.conf';
-    else if(file == 'oper1') fileRemote = 'oper1.txt';
-    else if(file == 'oper2') fileRemote = 'oper2.txt';
-    else {
+    if(file.trim() == "" || file == undefined){
         console.log("[SSH]=> Failed to receive file");
-        res.send({status: 'ERROR'})
+        res.send({status: 'ERROR'});
         return;
-    }
+    }   
+    
     //Recebe o arquivo do Host
     ssh.getFile(__dirname + '/tmp/'+file+'.txt', dirRemote+fileRemote).then(function(Contents) {
         console.log("[SSH]=> File Received Successfully");
@@ -77,6 +77,7 @@ function getFileSSH(file, req, res){
     
 }
 
+//Força comando no terminal através do SSH
 function command(command, req, res){
     //Verifica se esta conectado
     if(!connected){
