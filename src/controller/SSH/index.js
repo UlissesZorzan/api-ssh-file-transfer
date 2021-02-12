@@ -38,7 +38,7 @@ function checkConnect(){
 
 //Recebe arquivo através do SSH
 function getFileSSH(file, req, res){
-    var fileRemote = ""; //arquivo remoto    
+    //file é o nome do arquivo a ser recebido ex: teste.txt       
 
     //Verifica se esta conectado
     if(!connected){
