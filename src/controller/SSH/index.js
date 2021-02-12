@@ -55,12 +55,12 @@ function getFileSSH(file, req, res){
     }   
     
     //Recebe o arquivo do Host
-    ssh.getFile(__dirname + '/tmp/'+file+'.txt', dirRemote+fileRemote).then(function(Contents) {
+    ssh.getFile(__dirname + '/tmp/'+file, dirRemote+file).then(function(Contents) {
         console.log("[SSH]=> File Received Successfully");
         //Le o arquivo recebido e retorna como resposta
-        fs.readFile(__dirname + '/tmp/'+file+'.txt', (err, data) => {
+        fs.readFile(__dirname + '/tmp/'+file, (err, data) => {
             if (err){
-                console.log('[FS]=> Failed to read file '+ file+".txt");
+                console.log('[FS]=> Failed to read file '+ file);
                 res.send({status: 'ERROR'});
                 return;
             }
